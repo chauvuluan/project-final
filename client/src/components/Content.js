@@ -425,11 +425,8 @@ return (
       onOk={onEdit}
       onCancel={() => setOpenedit(false)}
       footer={[
-        <Button key="back" onClick={getUploadUrl}>
-          Return
-        </Button>,
         <Button key="submit" type="primary"  onClick={onEdit} >
-          Submit
+          Update
         </Button>,
       
       ]}
