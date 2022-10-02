@@ -109,7 +109,7 @@ const Content = (props) => {
 
   
   const getUploadUrl = async () => {
-console.log("=======url")
+
     await axios.post(`${apiEndpoint}/employees/${item.employeeId}/attachment`,
       ''
       , {
@@ -123,15 +123,11 @@ console.log("=======url")
        
          axios.put(response.data.uploadUrl,file)
       
-        
-        
+    
       .then(function (response) {
-        
-     
-        
+        setUrl(response)
+        window.location.reload();
       })   
-
-      
       })
       
 
@@ -257,11 +253,8 @@ console.log("=======url")
 
 
   const onEdit = async () => {
-
-    console.log("=======================edit")
     getUploadUrl()
     //setOpenEdit(true)
-    console.log("=======================edit2")
     console.log("////",item.name)
    await axios.patch(`${apiEndpoint}/employees/${item.employeeId}`,
     {
@@ -274,10 +267,9 @@ console.log("=======url")
       }
     })
       .then(function (response) {
-       
         setOpenedit(false)
         fetchdata()
-        window.location.reload(false);
+        
       })
       .catch(function (error) {
         // handle error
@@ -286,6 +278,7 @@ console.log("=======url")
       .then(function () {
         // always executed
       });
+      // window.location.reload();
   }
 
 
@@ -300,7 +293,7 @@ const defaultColumns = [
     title: 'name',
     dataIndex: 'name',
     // width: '30%',
-    editable: true,
+    // editable: true,
   },
   {
     title: 'avata',
@@ -320,7 +313,6 @@ const defaultColumns = [
     title: 'createdAt',
     dataIndex: 'createdAt',
   },
- 
   {
     title: 'delete',
     dataIndex: 'delete',
@@ -413,8 +405,8 @@ return (
     >
       <Input placeholder="name" name="name" onChange={handleNameChange} />
       <hr></hr>
-      <Input placeholder="age" name="department" onChange={handleNameChange} />
-      <hr></hr>
+      <Input placeholder="department" name="department" onChange={handleNameChange} />
+      {/* <hr></hr> */}
       
 
     </Modal>
@@ -425,8 +417,11 @@ return (
       onOk={onEdit}
       onCancel={() => setOpenedit(false)}
       footer={[
+        <Button key="back" onClick={getUploadUrl}>
+          Return
+        </Button>,
         <Button key="submit" type="primary"  onClick={onEdit} >
-          Update
+          Submit
         </Button>,
       
       ]}
@@ -434,8 +429,8 @@ return (
     >
       <Input placeholder="name" name="name" value={item.name} onChange={handleNameChange} />
       <hr></hr>
-      <Input placeholder="age" name="department" value={item.department} onChange={handleNameChange} />
-      <hr></hr>
+      <Input placeholder="department" name="department"  value={item.department} onChange={handleNameChange} />
+      {/* <hr></hr> */}
       <input
               type="file"
               accept="image/*"
