@@ -33,7 +33,14 @@ provider:
   logs:
     # Enable API Gateway logs
     restApi: true
-
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - xray:PutTelemetryRecords
+            - xray:PutTraceSegments
+          Resource: "*"
 custom:
   documentation:
     api:
@@ -71,14 +78,6 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.EMPLOYEES_TABLE}
-      - Effect: Allow
-        Action:
-          - s3:GetObject
-        Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.EMPLOYEES_TABLE}/index/${self:provider.environment.EMPLOYEES_CREATED_AT_INDEX}
   # TODO: Configure this function - 
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
   # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
@@ -93,7 +92,7 @@ functions:
           authorizer: Auth
           reqValidatorName: BodyValidator
           request:
-            schema:
+            schemas:
               application/json: ${file(models/create-employee-model.json)}
     iamRoleStatements:
       - Effect: Allow
@@ -113,7 +112,7 @@ functions:
           authorizer: Auth
           reqValidatorName: BodyValidator
           request:
-            schema:
+            schemas:
               application/json: ${file(models/update-employee-model.json)}
     iamRoleStatements:
       - Effect: Allow

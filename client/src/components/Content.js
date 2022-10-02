@@ -171,7 +171,7 @@ const Content = (props) => {
         setOpen(false)
       })
       .catch(function (error) {
-        console.log(error);
+        alert("not blank name")
       });
 
   }

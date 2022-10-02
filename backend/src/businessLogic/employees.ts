@@ -1,7 +1,7 @@
 import * as uuid from 'uuid';
 
 import { EmployeeItem } from '../models/EmployeeItem';
-import { EmployeeAccess } from './employeesAcess';
+import { EmployeeAccess } from '../dataLayer/employeesAcess';
 import { CreateEmployeeRequest } from '../requests/CreateEmployeeRequest';
 import { UpdateEmployeeRequest } from '../requests/UpdateEmployeeRequest';
 
